@@ -50,6 +50,7 @@ jobs:
           
       - name: Push
         run: |
+          git pull
           git add -A
           git commit -m "Publish"
           git push origin master
