@@ -1,0 +1,56 @@
+name: NPM PUBLISH
+
+on:
+  release:
+     types:
+       - published
+
+  workflow_dispatch:
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+          registry-url: https://registry.npmjs.org/
+        
+#       # rawimg/ 作为原始图片存储，webpimg/ 作为压缩图片存储处，最后合并。
+#       - name: Install & Convert
+#         run: |
+#           npm install -g webp-batch-convert@0.1.2
+#           cwebp-batch --in rawimg --out webpimg -q 75 -quiet
+#           #npx webp-batch-convert --in rawimg --out webpimg -q 75 -quiet
+#           mv webpimg/*.webp rawimg/
+          
+      - name: Publish Package
+        run: |
+          git config --global user.email "martinchenypl@foxmail.com"
+          git config --global user.name "lblbk"
+          npm version patch
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          
+#       # 删除 rawimg/ 和 webpimg/ 下的所有文件
+#       - name: Delete Files
+#         run: |
+#           rm -rf webpimg/*
+#           rm -rf rawimg/*
+#           touch webpimg/.gitkeep
+#           touch rawimg/.gitkeep
+          
+      - name: Push
+        run: |
+          git add -A
+          git commit -m "Publish"
+          git push origin master
+        
