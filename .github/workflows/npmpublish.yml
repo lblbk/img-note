@@ -32,11 +32,12 @@ jobs:
 #           mv webpimg/*.webp rawimg/
           
       - name: Publish Package
-        run: |
-          git config --global user.email "martinchenypl@foxmail.com"
-          git config --global user.name "lblbk"
-          npm version patch
-          npm publish
+#         run: |
+#           git config --global user.email "martinchenypl@foxmail.com"
+#           git config --global user.name "lblbk"
+#           npm version patch
+#           npm publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
           
@@ -50,8 +51,8 @@ jobs:
           
       - name: Push
         run: |
-          git push origin main
           git add -A
           git commit -m "Publish"
+          npm version patch
           git push -u origin main
         
