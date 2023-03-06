@@ -50,7 +50,6 @@ jobs:
           
       - name: Push
         run: |
-          git diff
           git push origin main
 #          git add -A
 #          git commit -m "Publish"
