@@ -50,8 +50,9 @@ jobs:
           
       - name: Push
         run: |
-          git reset --hard HEAD
-          git add -A
-          git commit -m "Publish"
+          git diff
           git push origin main
+#          git add -A
+#          git commit -m "Publish"
+#          git push origin main
         
